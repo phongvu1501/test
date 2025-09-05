@@ -1,28 +1,50 @@
-# quan-ly-hoc-sinh
+#  CMS Quản Lý Sản Phẩm
 
-a [Sails v1](https://sailsjs.com) application
+Dự án xây dựng hệ thống CMS (Content Management System) quản lý sản phẩm với đầy đủ chức năng:
 
+- Đăng ký, đăng nhập sử dụng **JWT**
+- Bảo mật mật khẩu bằng **bcrypt**
+- CRUD sản phẩm
+- Tìm kiếm, phân trang phía server
+- Giao diện chế độ **Sáng / Tối (Dark Mode)**
 
-### Links
+---
 
-+ [Sails framework documentation](https://sailsjs.com/get-started)
-+ [Version notes / upgrading](https://sailsjs.com/documentation/upgrading)
-+ [Deployment tips](https://sailsjs.com/documentation/concepts/deployment)
-+ [Community support options](https://sailsjs.com/support)
-+ [Professional / enterprise options](https://sailsjs.com/enterprise)
+##  1. Tính năng đã triển khai
 
+### Người dùng:
+-  Đăng ký, Đăng nhập, Đăng xuất
+-  Mã hóa mật khẩu bằng **bcrypt**
+-  Xác thực người dùng bằng **JWT**
+-  Lưu token vào `localStorage`
+-  Gửi token tự động trong mỗi request
 
-### Version info
+### Sản phẩm:
+-  Tạo, sửa, xóa, hiển thị danh sách
+-  Tìm kiếm theo tên (server-side)
+-  Phân trang (server-side)
+-  Hiển thị ảnh sản phẩm (nếu có)
 
-This app was originally generated on Sat May 10 2025 10:49:16 GMT+0700 (Giờ Đông Dương) using Sails v1.5.14.
+### Giao diện:
+-  Giao diện đơn giản với **Bootstrap**
+-  Chuyển đổi **Dark / Light Mode**
 
-<!-- Internally, Sails used [`sails-generate@2.0.13`](https://github.com/balderdashy/sails-generate/tree/v2.0.13/lib/core-generators/new). -->
+---
 
+##  2 Gợi ý phát triển tiếp theo
 
-This project's boilerplate is based on an expanded seed app provided by the [Sails core team](https://sailsjs.com/about) to make it easier for you to build on top of ready-made features like authentication, enrollment, email verification, and billing.  For more information, [drop us a line](https://sailsjs.com/support).
+###  Tính năng nâng cao
+- [ ] Phân quyền người dùng (Admin / Người dùng)
+- [ ] Refresh Token để giữ đăng nhập lâu dài
+- [ ] Quản lý khách hàng và đơn hàng
+- [ ] Upload ảnh sản phẩm lên **Cloudinary** hoặc **S3**
+- [ ] Biểu đồ thống kê (sử dụng Chart.js, Recharts)
+- [ ] Hệ thống thông báo realtime (WebSocket, Pusher)
 
+---
 
-<!--
-Note:  Generators are usually run using the globally-installed `sails` CLI (command-line interface).  This CLI version is _environment-specific_ rather than app-specific, thus over time, as a project's dependencies are upgraded or the project is worked on by different developers on different computers using different versions of Node.js, the Sails dependency in its package.json file may differ from the globally-installed Sails CLI release it was originally generated with.  (Be sure to always check out the relevant [upgrading guides](https://sailsjs.com/upgrading) before upgrading the version of Sails used by your app.  If you're stuck, [get help here](https://sailsjs.com/support).)
--->
+##  Liên hệ & Đóng góp
+
+Nếu bạn có bất kỳ đóng góp hoặc thắc mắc nào, vui lòng tạo issue hoặc pull request tại repo GitHub.
+
 

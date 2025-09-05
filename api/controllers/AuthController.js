@@ -1,28 +1,61 @@
-/**
- * AuthController
- *
- * @description :: Server-side actions for handling incoming requests.
- * @help        :: See https://sailsjs.com/docs/concepts/actions
- */
+// const JwtService = require('../services/JwtService');
+// const { passport } = require('../../config/passport');
 
-module.exports = {
-    register: async function (req, res) {
-        try {
-            const { username, password } = req.body;
-            console.log('info', req.info);
-            console.log('register', req.body);
-            if (!username || !password) {
-                return res.paramInvalid({ errorMsg: 'Username and password are required' });
-            }
-            let rs = await Auth.checkExistUser(username);
-            if (rs.errorCode !== constant.SUCCESS_CODE) {
-                return res.paramInvalid({ errorMsg: rs.errorMsg });
-            }
-            return res.success({ data: { id: new Date().toString(), username, password } });
-        } catch (error) {
-            return res.serverError(error);
-        }
-    },
+// module.exports = {
+//   google: (req, res) => {
+//     passport.authenticate('google', { scope: ['profile', 'email'] })(req, res);
+//   },
 
-};
+//   googleCallback: (req, res) => {
+//     passport.authenticate('google', { session: false }, (err, user) => {
+//       if (err || !user) {
+//         return res.redirect('http://localhost:5173/login?error=failed');
+//       }
 
+//       const token = JwtService.issue({ id: user.id, email: user.email });
+//       const userData = {
+//         id: user.id,
+//         fullName: user.fullName,
+//         email: user.email,
+//         avatar: user.avatar
+//       };
+
+//       // Redirect về frontend kèm token và thông tin user
+//       const redirectUrl = `http://localhost:5173/login?token=${token}&user=${encodeURIComponent(JSON.stringify(userData))}`;
+//       return res.redirect(redirectUrl);
+//     })(req, res);
+//   }
+// };
+
+
+// const passport = require('passport');
+// const GoogleStrategy = require('passport-google-oauth20').Strategy;
+
+// passport.use(new GoogleStrategy({
+//   clientID: "440772299451-pf090qj4hgbbitv2lh9a92to0mdlhljc.apps.googleusercontent.com",
+//   clientSecret: "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",
+//   callbackURL: "http://localhost:1337/auth/google/callback"
+// }, async (accessToken, refreshToken, profile, done) => {
+//   try {
+//     // Tìm user theo googleId
+//     let user = await Account.findOne({ googleId: profile.id });
+
+//     // Nếu chưa có thì tạo mới
+//     if (!user) {
+//       user = await Account.create({
+//         googleId: profile.id,
+//         fullName: profile.displayName,
+//         email: profile.emails[0].value,
+//         password: null,  // vì Google login, không có password
+//         avatar: profile.photos && profile.photos.length > 0 ? profile.photos[0].value : null,
+//         role: 'student'
+//       }).fetch();
+//     }
+
+//     return done(null, user);
+//   } catch (err) {
+//     return done(err, null);
+//   }
+// }));
+
+// module.exports = { passport };

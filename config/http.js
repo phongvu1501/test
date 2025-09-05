@@ -8,6 +8,7 @@
  * For more information on configuration, check out:
  * https://sailsjs.com/config/http
  */
+// const passport = require('passport');
 
 module.exports.http = {
 
@@ -28,10 +29,10 @@ module.exports.http = {
     * (This Sails app's routes are handled by the "router" middleware below.)  *
     *                                                                          *
     ***************************************************************************/
-
     order: [
       'cookieParser',
       'session',
+      // 'passportInit',
       'bodyParser',
       "logRequest",
       'compress',
@@ -39,6 +40,7 @@ module.exports.http = {
       'router',
       'www',
       'favicon',
+
     ],
     logRequest: function (req, res, next) {
       sails.log.debug('Request URL:', req.url);
@@ -60,7 +62,9 @@ module.exports.http = {
       var middlewareFn = skipper({ strict: true });
       return middlewareFn;
     })(),
+    // passportInit: passport.initialize(),
 
   },
+
 
 };

@@ -132,4 +132,8 @@ lib-cov
 *.log
 *.out
 *.pid
+# Môi trường
+.env
 
+# Dependencies
+node_modules

@@ -8,14 +8,40 @@
  * https://sailsjs.com/docs/concepts/policies
  */
 
+// const AuthController = require("../api/controllers/AuthController");
+
+// const Position = require("../api/models/Position");
+
+// // const { updateClass } = require("../api/controllers/ClassController");
+
+
 module.exports.policies = {
-  AuthController: {
-    register: ['verifyDevice', 'basic'], // 
+  // '*': false,
+  // AuthController: {
+  //   google: true,
+  //   googleCallback: true,
+  // },
+
+  ClassController: {
+    '*': true,
   },
-
+  GradeController: {
+    '*': true,
+  },
+  StudentController: {
+    '*': true,
+  },
+  TeacherController: {
+    '*': true,
+  },
+  PositionController: {
+    '*': true,
+  },
   UserController: {
-    student: ['verifyDevice', 'basic'], // isStudent
+    '*': true,
+  },
+  SubjectController: {
+    '*':true,
   }
-
 
 };
