@@ -26,36 +26,3 @@
 //     })(req, res);
 //   }
 // };
-
-
-// const passport = require('passport');
-// const GoogleStrategy = require('passport-google-oauth20').Strategy;
-
-// passport.use(new GoogleStrategy({
-//   clientID: "440772299451-pf090qj4hgbbitv2lh9a92to0mdlhljc.apps.googleusercontent.com",
-//   clientSecret: "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",
-//   callbackURL: "http://localhost:1337/auth/google/callback"
-// }, async (accessToken, refreshToken, profile, done) => {
-//   try {
-//     // Tìm user theo googleId
-//     let user = await Account.findOne({ googleId: profile.id });
-
-//     // Nếu chưa có thì tạo mới
-//     if (!user) {
-//       user = await Account.create({
-//         googleId: profile.id,
-//         fullName: profile.displayName,
-//         email: profile.emails[0].value,
-//         password: null,  // vì Google login, không có password
-//         avatar: profile.photos && profile.photos.length > 0 ? profile.photos[0].value : null,
-//         role: 'student'
-//       }).fetch();
-//     }
-
-//     return done(null, user);
-//   } catch (err) {
-//     return done(err, null);
-//   }
-// }));
-
-// module.exports = { passport };
