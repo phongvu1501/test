@@ -20,6 +20,10 @@ module.exports = {
     teachers: {
       collection: 'teacher', // Liên kết với model 'teacher'
       via: 'subject'         // Thông qua thuộc tính 'subject' bên model Teacher
+    },
+    scores: {
+      collection: 'diem',
+      via: 'subject'
     }
   }
 }

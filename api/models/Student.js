@@ -29,6 +29,10 @@ module.exports = {
         },
         account: {
             model: 'account'
+        },
+        scores: {
+            collection: 'diem',
+            via: 'student'
         }
     }
 };
