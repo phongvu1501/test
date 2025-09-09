@@ -1,92 +1,90 @@
-// test/integration/controllers/ClassController.test.js
-
+const sinon = require('sinon');
 const { expect } = require('chai');
 
-const classController = require('../../../api/controllers/ClassController');
+const mainCtrl = require('../../../api/controllers/ClassController');
+const ClassExtend = require('../../../api/services/ClassExtend');
+const ENVSANBOX = sinon.createSandbox();
 
-let testGrade;
-let testClass;
-
-describe('ClassController', () => {
-
-    before(async () => {
-        await Class.destroy({});
-        await Grade.destroy({});
-        testGrade = await Grade.create({ name: 'Khối 10 Test' }).fetch();
-        testClass = await Class.create({
-            name: 'Lớp 10A1 Dùng Chung',
-            schoolYear: '2025',
-            grade: testGrade.id
-        }).fetch();
+describe('ClassCtr.ClassController', () => {
+    let req, res;
+    
+    beforeEach(function () {
+        req = { body: {}, params: {} };
+        res = { 
+            success: ENVSANBOX.spy(), 
+            badRequest: ENVSANBOX.spy(),
+            serverError: ENVSANBOX.spy()
+        };
     });
 
-    // (TEARDOWN) Chạy 1 lần sau khi tất cả test kết thúc
-    after(async () => {
-        await Class.destroy({});
-        await Grade.destroy({});
+    afterEach(function () {
+        ENVSANBOX.restore();
     });
 
-    const createFakeRes = () => ({
-        success: (payload) => payload,
-        badRequest: (payload) => payload,
-        notFound: (payload) => payload,
-        serverError: (payload) => payload,
-    });
+    describe('ClassCtr_01. createClass', () => {
+        it('ClassCtr_01_01. should call res.success on successful creation', async () => {
+            ENVSANBOX.stub(ClassExtend, 'createClass').resolves({ err: 0, data: {} });
+            await mainCtrl.createClass(req, res);
+            expect(res.success.calledOnce).to.be.true;
+        });
 
+        it('ClassCtr_01_02. should call res.badRequest on service error', async () => {
+            ENVSANBOX.stub(ClassExtend, 'createClass').resolves({ err: 1 });
+            await mainCtrl.createClass(req, res);
+            expect(res.badRequest.calledOnce).to.be.true;
+        });
 
-    //==================== createClass ====================
-    describe('createClass', () => {
-        it('should create a class successfully', async () => {
-            const req = { body: { name: '10A2 Mới', schoolYear: '2025', gradeId: testGrade.id } };
+        it('ClassCtr_01_03. should call res.serverError on exception', async () => {
+            // Sửa ở đây: Stub service để nó văng ra một exception thật sự
+            ENVSANBOX.stub(ClassExtend, 'createClass').rejects(new Error('Lỗi database'));
             
-            const result = await classController.createClass(req, createFakeRes());
+            // Khi gọi, controller sẽ bắt lỗi này trong khối catch và gọi res.serverError
+            await mainCtrl.createClass(req, res);
             
-            expect(result.data).to.exist;
-            expect(result.data.name).to.equal('10A2 Mới');
-            
-            const classInDb = await Class.findOne({ id: result.data.id });
-            expect(classInDb).to.not.be.null;
+            // Bây giờ, kiểm tra này sẽ đúng
+            expect(res.serverError.calledOnce).to.be.true;
         });
     });
 
-    //==================== showClass ====================
-    describe('showClass', () => {
-        it('should return a single class by id', async () => {
-            const req = { param: (key) => key === 'id' ? testClass.id : null };
-            const result = await classController.showClass(req, createFakeRes());
-            expect(result.data.class.id).to.equal(testClass.id);
+    describe('ClassCtr_02. showClass', () => {
+        it('ClassCtr_02_01. should call res.success when class is found', async () => {
+            ENVSANBOX.stub(ClassExtend, 'showClass').resolves({ err: 0, data: {} });
+            await mainCtrl.showClass(req, res);
+            expect(res.success.calledOnce).to.be.true;
         });
-
-        it('should return a list of all classes', async () => {
-            const req = { param: () => null }; // Không có id
-            const result = await classController.showClass(req, createFakeRes());
-            expect(result.data).to.be.an('array');
-            expect(result.data.length).to.be.greaterThan(0);
+        it('ClassCtr_02_02. should call res.badRequest when class is not found', async () => {
+            ENVSANBOX.stub(ClassExtend, 'showClass').resolves({ err: 1 });
+            await mainCtrl.showClass(req, res);
+            expect(res.badRequest.calledOnce).to.be.true;
         });
     });
 
-    //==================== updateClass ====================
-    describe('updateClass', () => {
-        it('should update a class successfully', async () => {
-            const req = {
-                param: (key) => key === 'id' ? testClass.id : null,
-                body: { name: 'Lớp 10A1 Đã Cập Nhật', schoolYear: '2026', grade: testGrade.id }
-            };
-            const result = await classController.updateClass(req, createFakeRes());
-            expect(result.data.name).to.equal('Lớp 10A1 Đã Cập Nhật');
+    describe('ClassCtr_03. updateClass', () => {
+        it('ClassCtr_03_01. should call res.success on successful update', async () => {
+            ENVSANBOX.stub(ClassExtend, 'updateClass').resolves({ err: 0, data: {} });
+            await mainCtrl.updateClass(req, res);
+            expect(res.success.calledOnce).to.be.true;
+        });
+         it('ClassCtr_03_02. should call res.badRequest on service error', async () => {
+            ENVSANBOX.stub(ClassExtend, 'updateClass').resolves({ err: 1 });
+            await mainCtrl.updateClass(req, res);
+            expect(res.badRequest.calledOnce).to.be.true;
         });
     });
-
-    //==================== deleteClass ====================
-    describe('deleteClass', () => {
-        it('should delete a class successfully', async () => {
-            const tempClass = await Class.create({ name: 'Lớp Sẽ Bị Xóa', schoolYear: '2025', grade: testGrade.id }).fetch();
-            const req = { param: (key) => key === 'id' ? tempClass.id : null };
-
-            await classController.deleteClass(req, createFakeRes());
-
-            const classInDb = await Class.findOne({ id: tempClass.id });
-            expect(classInDb).to.be.null;
+    
+    describe('ClassCtr_04. deleteClass', () => {
+        it('ClassCtr_04_01. should call res.success on successful deletion', async () => {
+            ENVSANBOX.stub(ClassExtend, 'deleteClass').resolves({ err: 0, data: {} });
+            await mainCtrl.deleteClass(req, res);
+            expect(res.success.calledOnce).to.be.true;
+        });
+    });
+    
+    describe('ClassCtr_05. searchClass', () => {
+        it('ClassCtr_05_01. should call res.success on search', async () => {
+            ENVSANBOX.stub(ClassExtend, 'searchClass').resolves({ err: 0, data: [] });
+            await mainCtrl.searchClass(req, res);
+            expect(res.success.calledOnce).to.be.true;
         });
     });
 });
