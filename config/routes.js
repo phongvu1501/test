@@ -164,5 +164,25 @@ module.exports.routes = {
   'GET /api/subject/search/:query': {
     controller: 'SubjectController',
     action: 'searchSubject'
-  }
+  },
+
+  //Score
+  'POST /api/score': {
+    controller: 'ScoreController',
+    action: 'createScore'
+  },
+
+  'GET /api/score/:id': {
+    controller: 'ScoreController',
+    action: 'showScore'
+  },
+  'GET /api/score': {
+    controller: 'ScoreController',
+    action: 'showScore'
+  },
+
+  'POST /api/score/:id': {
+    controller: 'ScoreController',
+    action: 'updateScore'
+  },
 };

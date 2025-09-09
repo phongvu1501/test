@@ -42,6 +42,9 @@ module.exports.policies = {
   },
   SubjectController: {
     '*':true,
-  }
+  },
+  ScoreController: {
+    '*': true,
+  },
 
 };

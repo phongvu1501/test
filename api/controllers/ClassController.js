@@ -6,7 +6,7 @@ module.exports = {
             if (!name || !schoolYear || !gradeId) {
                 return res.badRequest({ err: 1, message: 'Thiếu dữ liệu' });
             }
-            const Grade = sails.models.grade;
+
             const grade = await Grade.findOne({ id: gradeId });
             if (!grade) {
                 return res.badRequest({ err: 1, message: 'Khối lớp không tồn tại' });
@@ -93,7 +93,7 @@ module.exports = {
                     { schoolYear: { $regex: new RegExp(searchText, 'i') } }
                 ]
             };
-            const result = await collection.find(filter).limit(1000).toArray();
+            const result = await collection.find(filter).limit(20).toArray();
             return res.success({ data: result });
         } catch (error) {
             sails.log.error('searchClass error:', error);

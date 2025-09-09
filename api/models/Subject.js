@@ -22,7 +22,7 @@ module.exports = {
       via: 'subject'         // Thông qua thuộc tính 'subject' bên model Teacher
     },
     scores: {
-      collection: 'diem',
+      collection: 'score',
       via: 'subject'
     }
   }

@@ -31,4 +31,35 @@ module.exports = {
             required: true,
         },
     },
+
+    // customToJSON: function () {
+    //     var obj = this.toObject();
+
+    //     let canCalculate = true;
+    //     let sumRegular = 0;
+    //     if (!obj.regularScores || obj.regularScores.length === 0) {
+    //         canCalculate = false;
+    //     } else {
+    //         sumRegular = obj.regularScores.reduce((acc, score) => acc + parseFloat(score), 0);
+    //     }
+
+    //     if (obj.midtermScore == null || obj.finalScore == null) {
+    //         canCalculate = false;
+    //     }
+
+    //     if (canCalculate) {
+    //         const avgRegular = sumRegular / obj.regularScores.length;
+
+    //         // Áp dụng công thức: (Điểm TX * 1 + Điểm GK * 2 + Điểm CK * 3) / 6
+    //         const semesterAverage = (avgRegular + (obj.midtermScore * 2) + (obj.finalScore * 3)) / 6;
+
+    //         obj.semesterAverage = parseFloat(semesterAverage.toFixed(2));
+    //     } else {
+    //         // Nếu không đủ điểm, trả về null
+    //         obj.semesterAverage = null;
+    //     }
+
+    //     return obj;
+    // }
+
 };

@@ -41,7 +41,7 @@
   },
   "scripts": {
     "start": "cross-env NODE_ENV=development node app.js",
-    "test": "mocha test/**/*.test.js --exit",
+    "test": "cross-env NODE_ENV=development nyc mocha node ./node_modules/mocha/bin/mocha test/lifecycle.test.js test/integration/*/*.test.js",
     "coverage": "nyc npm run test"
   },
   "main": "app.js",

@@ -31,7 +31,7 @@ module.exports = {
             model: 'account'
         },
         scores: {
-            collection: 'diem',
+            collection: 'score',
             via: 'student'
         }
     }
